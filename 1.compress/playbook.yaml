@@ -1,0 +1,12 @@
+---
+- name: compress string
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars:
+    x: "AAAAABBDCAAADDDDBC"
+  tasks:
+    - name: create the j2 template
+      template:
+        src: template.j2
+        dest: output.txt

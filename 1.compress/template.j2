@@ -1,0 +1,16 @@
+{%- set vars = {'result': "", 'counter': 1} -%}
+
+{%- for i in range(x|length) -%}
+    {%- if (i + 1 < x|length) and (x[i] == x[i + 1]) -%}
+        {%- if vars.update({'counter': vars.counter + 1}) -%} {%- endif -%}
+    {%- else -%}
+        {%- if vars.counter == 1 -%}
+            {%- if vars.update({'result': vars.result + x[i]}) -%} {%- endif -%}
+        {%- else -%}
+            {%- if vars.update({'result': vars.result + x[i] + vars.counter|string}) -%} {%- endif -%}
+        {%- endif -%}
+        {%- if vars.update({'counter': 1}) -%} {%- endif -%}
+    {%- endif -%}
+{%- endfor -%}
+
+{{- vars.result -}}

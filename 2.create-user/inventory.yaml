@@ -1,0 +1,5 @@
+all:
+  hosts:
+    foo:
+      ansible_host: 10.10.10.10
+      ansible_user: gt_prom
