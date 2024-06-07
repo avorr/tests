@@ -1,5 +1,5 @@
 ---
-- name: compress string
+- name: make sudo user
   hosts: all
   become: yes
   tasks:
@@ -19,7 +19,7 @@
         mode: 0440
         validate: 'visudo -cf %s'
 
-    - name: Add sudoers users to wheel group
+    - name: add user with password
       user:
         name: user
         groups: users
